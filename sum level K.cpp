@@ -81,6 +81,54 @@ Space Complexity: O(1)
 ------------------------------------------------------------
 */
 
+MY CODE 
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main(){
+    int lvl;
+    cin >> lvl;
+    string s;
+    cin >> s;
+    
+    int currlvl = 0;
+    long long sum = 0;
+    long long num = 0;
+    bool building = false;
+    bool negative = false;
+    for(char c : s){
+        if((c == '(' || c == ')') && building){
+            if(negative) num = -num;
+
+            if(currlvl == lvl)
+                sum += num;
+
+            num = 0;
+            building = false;
+            negative = false;
+        }
+
+        if(c == '('){
+            currlvl++;
+        }
+        else if(c == ')'){
+            currlvl--;
+        }
+        else if(c == '-'){
+            negative = true;
+            building = true;
+        }
+        else{ // digit
+            num = num*10 + (c - '0');
+            building = true;
+        }
+    }
+    cout << sum;
+    return 0;
+}
 
 
 #include<bits/stdc++.h>
