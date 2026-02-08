@@ -10,52 +10,160 @@ https://ide.geeksforgeeks.org/3Ks1tpOkwn
 
 Similr Problem - https://ide.codingblocks.com/s/95965
 
+====================================================================
+PROBLEM: Spaceship Maximum Coins (Samsung Coding Test Problem)
+====================================================================
 
-You’ll be given a grid as below:
+You are given a grid consisting of N rows and exactly 5 columns.
 
-    0 1 0 2 0
-    0 2 2 2 1
-    0 2 1 1 1
-    1 0 1 0 0
-    0 0 1 2 2
-    1 1 0 0 1
-    x x S x x
+Each cell contains one of the following values:
 
-In the grid above,
-  1: This cell has a coin.
-  2: This cell has an enemy.
-  0: It contains nothing.
+0 → empty cell
+1 → coin
+2 → enemy
 
-  The highlighted(yellow) zone is the control zone. S is a spaceship that we need to control so that we can get 
-  maximum coins.
-  Now, S’s initial position will be at the center and we can only move it right or left by one cell or do not move.
-  At each time, the non-highlighted part of the grid will move down by one unit.
-  We can also use a bomb but only once. If we use that, all the enemies in the 5×5 region above the control zone 
-  will be killed.
-  If we use a bomb at the very beginning, the grid will look like this:
+Below the grid there exists a fixed control zone:
 
-    0 1 0 2 0
-    0 0 0 0 1
-    0 0 1 1 1
-    1 0 1 0 0
-    0 0 1 0 0
-    1 1 0 0 1
-    x x S x x
+        x x S x x
 
-  As soon as, the spaceship encounters an enemy or the entire grid has come down, the game ends.
-  For example,
-  At the very first instance, if we want to collect a coin we should move left( coins=1). This is because when the 
-  grid comes down by 1 unit we have a coin on the second position and by moving left we can collect that coin. 
-  Next, we should move right to collect another coin (coins=2).
-  After this, remain at the same position (coins=4).
-  This is the current situation after collecting 4 coins.
+S represents a spaceship and it always starts in the middle column
+(column index 2 if 0-indexed).
 
-    0 1 0 2 0 0 1 0 0 0
-    0 2 2 2 1 -->after using 0 0 0 0 1
-    x x S x x -->bomb x x S x x
+--------------------------------------------------------------------
 
-   Now, we can use the bomb to get out of this situation. After this, we can collect at most 1 coin. So maximum coins=5.
+GAME MECHANICS
+
+At every second:
+
+• The grid moves DOWN by one row.
+  (Equivalent interpretation: the spaceship moves UP one row.)
+
+• During each second the spaceship may:
+    1) move left
+    2) move right
+    3) stay in the same column
+
+--------------------------------------------------------------------
+
+INTERACTION WITH CELLS
+
+If the spaceship enters a cell:
+
+• coin (1)   → collect 1 coin
+• enemy (2)  → spaceship crashes and game ends
+• empty (0)  → nothing happens
+
+The game also ends when the entire grid has passed.
+
+--------------------------------------------------------------------
+
+SPECIAL ABILITY (BOMB)
+
+The spaceship has EXACTLY ONE bomb.
+
+The bomb can be used at any time (only once).
+
+When used:
+All enemies (2) in the 5×5 region immediately ABOVE the spaceship
+(i.e., next 5 rows upward) are destroyed and become empty cells (0).
+
+After using the bomb, the spaceship continues the game normally.
+
+--------------------------------------------------------------------
+
+OBJECTIVE
+
+Determine the maximum number of coins that can be collected
+before the spaceship crashes or the grid finishes.
+
+--------------------------------------------------------------------
+
+INPUT FORMAT
+
+T
+Number of test cases
+
+For each test case:
+
+N
+Number of rows in the grid
+
+Next N lines:
+Each line contains 5 space-separated integers (0, 1, or 2)
+
+--------------------------------------------------------------------
+
+OUTPUT FORMAT
+
+For each test case print:
+
+#case_number : maximum_coins
+
+--------------------------------------------------------------------
+
+SAMPLE INPUT
+--------------------------------------------------------------------
+1
+6
+0 1 0 2 0
+0 2 2 2 1
+0 2 1 1 1
+1 0 1 0 0
+0 0 1 2 2
+1 1 0 0 1
+
+--------------------------------------------------------------------
+
+SAMPLE OUTPUT
+--------------------------------------------------------------------
+#1 : 5
+
+--------------------------------------------------------------------
+
+EXPLANATION
+
+Initial Position:
+Spaceship starts at bottom center column.
+
+STEP 1:
+Move LEFT → collect coin → coins = 1
+
+STEP 2:
+Move RIGHT → collect coin → coins = 2
+
+STEP 3:
+Stay in same column → collect 2 more coins → coins = 4
+
+At this point enemies block all possible paths.
+If we continue without bomb → spaceship crashes.
+
+So we use the bomb.
+
+The bomb destroys all enemies in the next 5 rows above the spaceship.
+
+After clearing enemies:
+We can safely move once more and collect one additional coin.
+
+Final coins collected = 5
+
+--------------------------------------------------------------------
+
+OBSERVATION
+
+This problem is NOT a shortest path problem.
+
+This is a RECURSION / BACKTRACKING simulation problem:
+
+At every step you must consider:
+    - 3 movement choices
+    - whether to use the bomb now or later
+
+You must explore all valid possibilities and choose the path
+that yields the maximum number of coins.
+
+====================================================================
 */
+
 #include<bits/stdc++.h>
 using namespace std;
 void updateMatrix(int row,char ** matrix){
