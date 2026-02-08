@@ -131,6 +131,100 @@ current.right == true AND neighbor.left == true
 
 ====================================================================
 */
+MY CODE 
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+int bfs(int i,int j,int maxTime,vector<vector<int>>& grid,
+    vector<vector<int>>& adj,vector<vector<int>>& vis){
+    if(grid[i][j] == 0){
+        return 0;
+    }
+    int n = grid.size();
+    int m = grid[0].size();
+    vis[i][j] = 1;
+    queue<pair<int,pair<int,int>>> q;
+    q.push({maxTime -1,{i,j}});
+    
+    // UP , DOWN , LEFT , RIGHT
+    // DOWN , UP , RIGHT , LEFT
+    // 0 && 1 , 1 && 0 , 2 & 3, 3 & 2
+    int drRow[] = {-1,1,0,0};
+    int drCol[] = {0,0,-1,1};
+    int totalPipesVisited = 1;
+    int opposite[4] = {1,0,3,2};
+
+    while(!q.empty()){
+        int row = q.front().second.first;
+        int col = q.front().second.second;
+        int time = q.front().first;
+        int currPipe = grid[row][col];
+        q.pop();
+        if(time <= 0){
+            continue;
+        }
+        for(int k = 0;k < 4;k++){
+            int nrow = row + drRow[k];
+            int ncol = col + drCol[k];
+            if(nrow < 0 || nrow >= n || ncol < 0 || ncol >= m){
+                continue;
+            }
+
+            if(vis[nrow][ncol]){
+                continue;
+            }
+            if(grid[nrow][ncol] == 0){
+                continue;
+            }
+            int nextPipe = grid[nrow][ncol];
+            if( adj[currPipe][k] && adj[nextPipe][opposite[k]]){
+                totalPipesVisited++;
+                vis[nrow][ncol] = 1;
+                q.push({time - 1,{nrow,ncol}});
+            }
+        }
+    }
+    return totalPipesVisited;
+}
+
+int main(){
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int row,col,srow,scol,maxTime;
+    cin >> row >> col;
+    cin >> srow >> scol;
+    cin >> maxTime;
+
+
+    vector<vector<int>> adj = { // up , down, left, right
+        {0,0,0,0}, // 0 no pipe
+        {1,1,1,1}, // 1
+        {1,1,0,0}, // 2 vertical
+        {0,0,1,1}, // 3 horizontal
+        {1,0,0,1}, // 4 up right
+        {0,1,0,1}, // 5 down right
+        {0,1,1,0}, // 6 down left
+        {1,0,1,0}  // 7 up left
+    };
+
+    vector<vector<int>> grid(row,vector<int>(col));
+    for(int i = 0;i<row;i++){
+        for(int j = 0;j<col;j++){
+            cin >> grid[i][j];
+        }
+    }
+    vector<vector<int>> vis(row,vector<int>(col,0));
+    int maxPipes = bfs(srow,scol,maxTime,grid,adj,vis);
+    cout << maxPipes;
+    return 0;
+}
+
+/*
 
 #include<iostream>
 using namespace std;
@@ -184,7 +278,6 @@ void bfs(){
         
         if( 1 + dis[p][q] <= len ){
             
-            /* Row Up */
             if( isValid(p-1, q) && vis[p-1][q] == 0 && pipes[p-1][q].down && pipes[p][q].up ){
                 vis[p-1][q] = 1;
                 dis[p-1][q] = 1 + dis[p][q];
@@ -195,7 +288,6 @@ void bfs(){
                 rear = (rear + 1) % 1000005;
             } 
             
-            /* Row Down */
             if( isValid(p+1, q) && vis[p+1][q] == 0 && pipes[p+1][q].up && pipes[p][q].down ){
                 vis[p+1][q] = 1;
                 dis[p+1][q] = 1 + dis[p][q];
@@ -206,7 +298,6 @@ void bfs(){
                 rear = (rear + 1) % 1000005;
             } 
             
-            /* Column Left */
             if( isValid(p, q-1) && vis[p][q-1] == 0 && pipes[p][q-1].right && pipes[p][q].left ){
                 vis[p][q-1] = 1;
                 dis[p][q-1] = 1 + dis[p][q];
@@ -217,7 +308,6 @@ void bfs(){
                 rear = (rear + 1) % 1000005;
             }          
 
-            /* Column Right */
             if( isValid(p, q+1) && vis[p][q+1] == 0 && pipes[p][q+1].left && pipes[p][q].right ){
                 vis[p][q+1] = 1;
                 dis[p][q+1] = 1 + dis[p][q];
@@ -303,3 +393,4 @@ int main(){
 	}
 	return 0;
 }
+*/
