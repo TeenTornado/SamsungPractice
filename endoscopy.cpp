@@ -49,7 +49,87 @@ The fugitive can move only for L units of time.
 Your task is to determine how many distinct cells the fugitive
 can reach within L time units.
 
----------------------
+--------------------------------------------------------------------
+
+INPUT FORMAT
+
+T  → number of test cases
+
+For each test case:
+
+N M R C L
+N = number of rows
+M = number of columns
+R = starting row (0-indexed)
+C = starting column (0-indexed)
+L = maximum time allowed
+
+Next N lines:
+Each line contains M integers representing pipe types (0–7)
+
+--------------------------------------------------------------------
+
+OUTPUT FORMAT
+
+For each test case print:
+the number of reachable cells.
+
+--------------------------------------------------------------------
+
+SAMPLE INPUT
+--------------------------------------------------------------------
+1
+5 6 2 1 3
+0 0 5 3 6 0
+0 0 2 0 2 0
+3 3 1 3 7 0
+0 0 2 0 0 0
+0 0 4 6 5 0
+
+--------------------------------------------------------------------
+
+SAMPLE OUTPUT
+--------------------------------------------------------------------
+6
+
+--------------------------------------------------------------------
+
+EXPLANATION
+
+Starting position = (2,1)
+
+Time = 1
+We are at starting pipe → reachable cells = 1
+
+Time = 2
+We can move to adjacent connected pipes based on openings.
+
+Time = 3
+We expand further through valid pipe connections.
+
+After exploring all valid connected pipes within 3 time units,
+the fugitive can reach a total of 6 distinct cells.
+
+--------------------------------------------------------------------
+
+IMPORTANT OBSERVATION
+
+This is NOT a shortest path problem.
+
+This is a BFS level traversal problem:
+
+• Each BFS level = 1 time unit
+• Stop BFS when distance > L
+• Count number of visited cells
+
+Key logic:
+You can move between two cells only if BOTH pipes connect to each other.
+
+Example:
+Moving RIGHT:
+current.right == true AND neighbor.left == true
+
+====================================================================
 */
 
 #include<iostream>
