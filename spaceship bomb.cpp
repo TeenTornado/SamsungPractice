@@ -164,6 +164,82 @@ that yields the maximum number of coins.
 ====================================================================
 */
 
+MY CODE 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void updateMatrix(int row,vector<vector<int>>& grid){
+    if(row < 0){
+        return;
+    }
+    for(int i = row;i >= max(0,row - 4);i--){
+        for(int j = 0;j < 5;j++){
+            if(grid[i][j] == 2){
+                grid[i][j] = 0;
+            }
+        }
+    }
+}
+
+int findMaxCoins(int i,int j,int bomb,vector<vector<int>>& grid){
+
+    if(j >= 5 || j < 0){
+        return 0;
+    }
+    if(i <= 0){
+        return 0;
+    }
+    int best = 0;
+    bool safeMove = false;
+    for(int k = -1;k <= 1;k++){
+        int nj = j + k;
+
+        if(nj >= 5 || nj < 0){
+            continue;
+        }
+        if(grid[i - 1][nj] != 2){
+            safeMove = true;
+            int coin = (grid[i-1][nj] == 1 ? 1 : 0);
+            best = max(best,findMaxCoins(i-1,nj,bomb,grid) + coin);
+        }
+    }
+
+    if(!safeMove && bomb > 0){
+        vector<vector<int>> temp = grid;
+        updateMatrix(i-1, grid);
+        best = findMaxCoins(i, j, 0, grid);
+        grid = temp;
+    }
+
+    return best;
+}
+
+int main(){
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    freopen("input.txt","r",stdin);
+
+    freopen("output.txt","w",stdout);
+
+    int row;
+    cin >> row;
+    vector<vector<int>> grid(row,vector<int>(5));
+    for(int i = 0;i<row;i++){
+        for(int j = 0;j < 5;j++){
+            cin >> grid[i][j];
+        }
+    }
+    int maxi = findMaxCoins(row,2,1,grid);
+    cout << maxi;
+    return 0;
+}
+
+/*
+
 #include<bits/stdc++.h>
 using namespace std;
 void updateMatrix(int row,char ** matrix){
