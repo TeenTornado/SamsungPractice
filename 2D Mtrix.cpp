@@ -84,6 +84,65 @@ Number of Maximum Score Paths = 2
 
 --------------------------------------------------
 
+// MY CODE 
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <climits>
+using namespace std;
+pair<int,int> totalMaxPath(int i,int j,vector<vector<pair<int,int>>>& dp,vector<vector<char>>& grid){
+    int n = grid.size();
+    if(i < 0 || j < 0 || j >= n || i >= n || grid[i][j] == 'x'){
+        return {-1e9,0};
+    }
+    if(i == 0 && j == 0){
+        return {0,1};
+    }
+    if(dp[i][j].first != -1){
+        return dp[i][j];
+    }
+    int val = grid[i][j] - '0';
+    pair<int,int> up = totalMaxPath(i - 1,j,dp,grid) ;
+    pair<int,int> left = totalMaxPath(i ,j - 1,dp,grid) ;
+    pair<int,int> ldiag = totalMaxPath(i - 1,j - 1,dp,grid);
+    int best = max(up.first,max(left.first,ldiag.first));
+    if(best == -1e9){
+        return dp[i][j] = {-1e9,0};
+    }
+    int ways = 0;
+    if(up.first == best){
+        ways += up.second;
+    }
+    if(left.first == best){
+        ways += left.second;
+    }
+    if(ldiag.first == best){
+        ways += ldiag.second;
+    }
+    return dp[i][j] = {best + val, ways};
+}
+
+int main(){
+    int n;
+    cin >> n;
+    vector<vector<char>> grid(n,vector<char>(n));
+    for(int i = 0;i<n;i++){
+        for(int j = 0;j<n;j++){
+            cin >> grid[i][j];
+        }
+    }
+    vector<vector<pair<int,int>>> dp(n,vector<pair<int,int>>(n,{-1,-1}));
+
+    pair<int,int> ans = totalMaxPath(n-1,n-1,dp,grid);
+
+    if(ans.first < 0){
+        cout <<"0 0";
+    }else{
+        cout << ans.first << " " << ans.second;
+    }
+    return 0;
+}
+
 
 #include <bits/stdc++.h>
 #include <iostream>
