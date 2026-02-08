@@ -1,3 +1,61 @@
+PROBLEM: Maximum Score Path in a Grid
+
+You are given an N × N grid representing a game board.
+
+Each cell of the grid contains either:
+• A digit '0' to '9' representing points collected when visiting that cell
+• The character 'x' representing a blocked cell that cannot be visited
+
+You start from the top-left cell (0,0) and need to reach the bottom-right cell (N-1,N-1).
+
+NOTE:
+The starting cell and the destination cell do NOT contribute any points.
+
+--------------------------------------------------
+
+ALLOWED MOVES
+From a cell (i, j) you may move:
+1. Right        → (i, j+1)
+2. Down         → (i+1, j)
+3. Diagonal     → (i+1, j+1)
+
+You are not allowed to step on blocked cells ('x').
+
+--------------------------------------------------
+
+TASK
+For each test case, determine:
+
+1) The maximum points that can be collected along any valid path
+2) The number of distinct paths that achieve this maximum score
+
+If no valid path exists from start to destination, print:
+0 0
+
+--------------------------------------------------
+
+INPUT FORMAT
+The first line contains an integer T — the number of test cases.
+
+For each test case:
+• First line contains integer N — the size of the grid
+• Next N lines contain N characters each (digits '0'–'9' or 'x')
+
+--------------------------------------------------
+
+OUTPUT FORMAT
+For each test case, output two integers separated by a space:
+<maximum_score> <number_of_paths>
+
+--------------------------------------------------
+
+EXAMPLE OUTPUT
+15 3
+
+This means:
+Maximum obtainable score = 15
+Number of optimal paths  = 3
+
 #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
