@@ -1,35 +1,120 @@
-/*
-https://www.geeksforgeeks.org/samsung-competency-test-25-aug-19/
-*/
-/*
-	----IIT(ISM) Dhanbad----
-	Author: Siddhant Choudhary
-	
-	--samsumg coding test--
-	
-	Q.There is a large plot with various sinkholes present. 
-	Since one sinkhole can combine with another sinkhole, it is required to get
-	at most one sinkhole while occupying the plot. You have to find the maximum 
-	square-area formed with at most one sinkhole present.
-	If there are two plots with the same area then print the one with 
-	lesser sinkhole present otherwise if the sinkholes are also same then print
-	anyone. For each case, you have to print the bottom leftmost coordinate and 
-	top rightmost point. Please keep in mind that the plot starts with (1, 1).
+# /*
 
-	Time limit= 1sec and Memory limit– 256Mb
+# PROBLEM: Largest Square Plot With At Most One Sinkhole
 
-	Input: First line will give the number of test cases. For each test case, we
-	will be given the size of the plot matrix N x M (where 1<=N, M<=1000). Next
-	line will give the number of sinkholes present in the matrix K (1<=K<=N+M). 
-	Next, K-lines will give the coordinates of the sinkholes.
+You are given a rectangular land plot of size N × M.
 
-	Output: For each test case, you have to print the number of the test case
-	and the coordinates of the resultant square.
-	i.e. #i xb yb xt yt (ith test case, xb=bottomost left x-coordinate, 
-	yb=bottomost  left y-coordinate, xt= topmost right x-coordinate,
-	yt= topmost right y-coordinate)
-	
-  *	time complexity of my approach = O(n*m*log(min(m,n))) *
+Some cells in the plot contain sinkholes (damaged land).
+You want to build a square-shaped facility on this land.
+
+However, construction rules allow:
+The chosen square region may contain AT MOST ONE sinkhole.
+
+Your task is to find the LARGEST POSSIBLE square that can be built
+under this condition.
+
+If multiple squares have the same maximum size:
+• Prefer the square having fewer sinkholes.
+• If still tied, output any one of them.
+
+The grid coordinates start from (1,1) at the bottom-left corner.
+
+For the chosen square, output:
+Bottom-left coordinate (xb, yb)
+Top-right coordinate  (xt, yt)
+
+---
+
+INPUT FORMAT
+
+T → number of test cases
+
+For each test case:
+
+N M
+N = number of rows
+M = number of columns
+
+K → number of sinkholes
+
+Next K lines:
+x y  → coordinates of sinkholes (1-indexed)
+
+---
+
+OUTPUT FORMAT
+
+For each test case print:
+
+#i xb yb xt yt
+
+where:
+i  = test case number
+xb,yb = bottom-left coordinate of the square
+xt,yt = top-right coordinate of the square
+
+---
+
+CONSTRAINTS
+
+1 ≤ N, M ≤ 1000
+1 ≤ K ≤ N + M
+Time Limit: 1 second
+
+---
+
+WHAT YOU NEED TO FIND
+
+Among all possible square subgrids in the matrix,
+find the largest side-length square containing
+no more than ONE sinkhole.
+
+---
+
+EXAMPLE
+
+Input:
+1
+5 5
+2
+2 2
+4 4
+
+Explanation:
+
+A 5×5 grid is given.
+Sinkholes exist at:
+(2,2) and (4,4)
+
+We must find the biggest square subgrid that contains
+at most one sinkhole.
+
+If a 4×4 square contains both sinkholes → invalid.
+If a 3×3 square contains only one sinkhole → valid.
+
+We search all possible squares and choose the largest valid one.
+
+---
+
+OBSERVATION / INTENDED SOLUTION
+
+Brute force checking every square is too slow:
+O(N^3)
+
+Instead:
+
+1. Build a 2D Prefix Sum matrix
+   → Quickly count number of sinkholes inside any sub-square in O(1)
+
+2. Binary search the side length of the square.
+
+3. For each candidate side length:
+   Check if ANY square of that size has ≤ 1 sinkhole.
+
+Time Complexity:
+O(N × M × log(min(N,M)))
+
+====================================================================
 */
 
 #include <iostream>
