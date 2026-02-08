@@ -1,5 +1,55 @@
 /*
 https://www.hackerearth.com/problem/algorithm/question-7-4
+
+/*
+====================================================================
+PROBLEM: Underground Tunnel Escape (Samsung R&D Coding Test)
+====================================================================
+
+A fugitive is trapped inside an underground sewer system.
+
+The sewer system is represented as a grid of size N × M.
+Each cell contains a pipe structure which determines the
+directions in which movement is possible.
+
+Each cell value represents a pipe type:
+
+0 → No pipe (blocked cell)
+
+1 → Can move in all 4 directions (Up, Down, Left, Right)
+2 → Vertical pipe (Up, Down)
+3 → Horizontal pipe (Left, Right)
+4 → Up and Right
+5 → Down and Right
+6 → Down and Left
+7 → Up and Left
+
+The fugitive starts at a given manhole position (R, C).
+
+He can move through connected pipes only if:
+
+1) The current pipe has an opening toward the neighbor.
+2) The neighboring pipe has an opening back toward the current cell.
+
+For example:
+You can move UP only if:
+- current cell allows UP
+AND
+- the upper cell allows DOWN.
+
+--------------------------------------------------------------------
+
+TIME LIMIT CONDITION
+
+The fugitive can move only for L units of time.
+
+• Each move to an adjacent connected pipe takes 1 unit of time.
+• The starting position counts as time = 1.
+
+Your task is to determine how many distinct cells the fugitive
+can reach within L time units.
+
+---------------------
 */
 
 #include<iostream>
