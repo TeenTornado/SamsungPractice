@@ -1,3 +1,136 @@
+**Problem: Sum of Nodes at a Given Level in a Serialized Binary Tree**
+
+---
+
+### Problem Statement
+
+You are given a binary tree encoded as a string using bracket notation.
+Each node of the tree is represented in the following format:
+
+```
+(value left_subtree right_subtree)
+```
+
+* `value` → integer value of the node (can be negative)
+* `left_subtree` → representation of the left child
+* `right_subtree` → representation of the right child
+* An empty subtree is represented as `()`
+
+Your task is to compute the **sum of all node values present at a given level `X`**.
+
+The root node is considered to be at **level 0**.
+
+---
+
+### Input Format
+
+1. The first line contains an integer `X` — the required level.
+2. The second line contains a string `S` — the serialized representation of the binary tree.
+
+---
+
+### Output Format
+
+Print a single integer — the sum of all nodes present at level `X`.
+
+---
+
+### Constraints
+
+* `0 ≤ X ≤ 10^5`
+* `1 ≤ |S| ≤ 10^5`
+* Node values range from `-10^9` to `10^9`
+* The tree is always valid and properly balanced in parentheses.
+
+---
+
+### Example 1
+
+**Input**
+
+```
+2
+(1(2()())(3()()))
+```
+
+**Explanation**
+
+The tree:
+
+```
+      1
+     / \
+    2   3
+```
+
+Nodes at level 2 → none
+
+Output:
+
+```
+0
+```
+
+---
+
+### Example 2
+
+**Input**
+
+```
+1
+(1(2()())(3()()))
+```
+
+Nodes at level 1 → `2` and `3`
+
+Output:
+
+```
+5
+```
+
+---
+
+### Example 3
+
+**Input**
+
+```
+3
+(0(5(6()())(-4()(9()())))(7(1()())(3()())))
+```
+
+Nodes at level 3 → `6, -4, 1, 3`
+
+Output:
+
+```
+6
+```
+
+---
+
+### Important Observations
+
+* Every `'('` means moving **down one level** in the tree.
+* Every `')'` means returning **up one level**.
+* The nesting depth of parentheses directly corresponds to the depth of a node.
+
+---
+
+### Expected Approach
+
+The problem should be solved in **O(N)** time using a single pass over the string.
+Constructing an explicit tree is **not required** and may lead to unnecessary memory usage.
+
+---
+
+### Tags
+
+`Tree` `DFS` `Stack` `Parsing` `Simulation` `String Processing`
+
+
 #include<bits/stdc++.h>
 using namespace std;
 
