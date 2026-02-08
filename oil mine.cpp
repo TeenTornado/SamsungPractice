@@ -6,22 +6,150 @@ https://www.careercup.com/question?id=5730470801702912
 */
 
 /*
-There is an island surrounded by oil mines. You will be given n companies and m oil mines having values.
-You have to distribute the mines to "n" companies in fair manner. Remember the companies can have oil 
-mines adjacent to each other and not in between of each others.After distributing them compute the 
-difference of oil mines from the company getting highest and company getting lowest. This number 
-should be minimum.(then only the distribution can be termed as fair).
+====================================================================
+PROBLEM: Fair Distribution of Oil Mines (Samsung Coding Test)
+====================================================================
 
-Input 
-2 
-2 4 
-6 13 10 2 
-2 4 
-6 10 13 2 
+An island contains a circular chain of oil mines.
 
-output 
-5 
+There are M oil mines arranged in a circle.
+Each mine produces a certain amount of oil.
+
+There are N companies that must be assigned these mines.
+
+RULES OF DISTRIBUTION
+--------------------------------------------------------------------
+1) Each company must receive a CONTIGUOUS block of mines.
+
+2) Since the mines are circular, the first and last mines are also
+   considered adjacent.
+
+   Example:
+   mines = [6, 13, 10, 2]
+
+   Valid partitions:
+   [6,13] [10,2]
+   [2,6] [13,10]   (because circle)
+
+3) Every mine must be assigned to exactly one company.
+
+4) No company can take mines from the middle of another company’s block.
+
+--------------------------------------------------------------------
+
+FAIRNESS CRITERIA
+--------------------------------------------------------------------
+After distributing the mines:
+
+Each company will have a total oil value (sum of its mines).
+
+Let:
+MAX = company with highest oil
+MIN = company with lowest oil
+
+We define unfairness = MAX − MIN
+
+Your task is to distribute the mines such that this unfairness
+is MINIMIZED.
+
+--------------------------------------------------------------------
+
+INPUT FORMAT
+--------------------------------------------------------------------
+T  → number of test cases
+
+For each test case:
+
+N M
+N = number of companies
+M = number of oil mines
+
+Next line:
+M integers representing oil in each mine (circular order)
+
+--------------------------------------------------------------------
+
+OUTPUT FORMAT
+--------------------------------------------------------------------
+For each test case print:
+minimum possible unfairness.
+
+--------------------------------------------------------------------
+
+SAMPLE INPUT
+--------------------------------------------------------------------
+2
+2 4
+6 13 10 2
+2 4
+6 10 13 2
+
+--------------------------------------------------------------------
+
+SAMPLE OUTPUT
+--------------------------------------------------------------------
+5
 1
+
+--------------------------------------------------------------------
+
+EXPLANATION
+--------------------------------------------------------------------
+
+Test Case 1:
+Companies = 2
+Mines = [6, 13, 10, 2]
+
+Possible circular partitions:
+
+Partition 1:
+[6,13] and [10,2]
+sums = 19 and 12
+difference = 7
+
+Partition 2:
+[13,10] and [2,6]
+sums = 23 and 8
+difference = 15
+
+Partition 3:
+[10,2,6] and [13]
+sums = 18 and 13
+difference = 5  <-- MINIMUM
+
+Answer = 5
+
+
+Test Case 2:
+Companies = 2
+Mines = [6, 10, 13, 2]
+
+Best partition:
+[6,10] and [13,2]
+sums = 16 and 15
+difference = 1  <-- MINIMUM
+
+Answer = 1
+
+--------------------------------------------------------------------
+
+IMPORTANT OBSERVATION
+--------------------------------------------------------------------
+This is NOT a greedy problem.
+
+This is a:
+    Backtracking / Recursion / Partitioning problem.
+
+We must try every possible contiguous circular partition
+and track the minimum difference.
+
+Key challenge:
+Handling circular array + contiguous segments simultaneously.
+
+Time Complexity:
+Exponential (but constraints are small in Samsung tests)
+
+====================================================================
 */
 
 #include <iostream>
