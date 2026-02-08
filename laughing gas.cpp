@@ -109,6 +109,55 @@ The BFS "level" represents time.
 ------------------------------------------------------------
 */
 
+MY CODE 
+
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+int bfs(int srow,int scol,vector<vector<int>>& grid){
+    int n = grid.size();
+    int m = grid[0].size();
+    queue<pair<int,pair<int,int>>> q;
+    q.push({0,{srow,scol}});
+    grid[srow][scol] = 0;
+    int drRow[] = {-1,1,0,0};
+    int drCol[] = {0,0,-1,1};
+    int maxTime = 0;
+    while(!q.empty()){
+        int time = q.front().first;
+        int row = q.front().second.first;
+        int col = q.front().second.second;
+        q.pop();
+        maxTime = max(time,maxTime);
+        for(int k = 0;k < 4;k++){
+            int nrow = row + drRow[k];
+            int ncol = col + drCol[k];
+
+            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m 
+            && grid[nrow][ncol] != 0){
+                q.push({time + 1,{nrow,ncol}});
+                grid[nrow][ncol] = 0;
+            }
+        }
+    }
+    return maxTime;
+}
+int main(){
+    int n,m;
+    cin >> n >> m;
+    vector<vector<int>> grid(n,vector<int>(m));
+    for(int i = 0;i<n;i++){
+        for(int j = 0;j<m;j++){
+            cin >> grid[i][j];
+        }
+    }
+    int srow,scol; // Start Row , Start Col
+    cin >> srow >> scol;
+    int time = bfs(srow,scol,grid);
+    cout << time;
+    return 0;
+}
 
 //https://www.cnblogs.com/kingshow123/p/practicec1.html
 #include <iostream>
