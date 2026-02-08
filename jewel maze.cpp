@@ -107,6 +107,83 @@ N ≤ 10  → grid size ≤ 100 cells.
 ====================================================================
 */
 
+MY CODE 
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+int bestJewels = 0;
+int N;
+
+int dx[4] = {1,-1,0,0};
+int dy[4] = {0,0,1,-1};
+
+
+void dfs(int x,int y,vector<vector<int>>& cave,
+         vector<vector<int>>& vis,int jewels){
+        
+    if(x == 0 && y == 0){
+        bestJewels = max(bestJewels, jewels);
+        return;
+    }
+
+    for(int k=0;k<4;k++){
+        int nx = x + dx[k];
+        int ny = y + dy[k];
+
+        if(nx<0 || ny<0 || nx>=N || ny>=N)
+            continue;
+
+        if(vis[nx][ny])
+            continue;
+
+        if(cave[nx][ny] == 1)
+            continue;
+
+        vis[nx][ny] = 1;
+
+        if(cave[nx][ny] == 2)
+            dfs(nx,ny,cave,vis,jewels+1);
+        else
+            dfs(nx,ny,cave,vis,jewels);
+
+        vis[nx][ny] = 0;
+    }
+}
+
+int main(){
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    freopen("input.txt","r",stdin);
+
+    freopen("output.txt","w",stdout);
+
+    cin >> N;
+    vector<vector<int>> cave(N,vector<int>(N));
+    vector<vector<int>> vis(N,vector<int>(N,0));
+    for(int i = 0;i<N;i++){
+        for(int j = 0;j<N;j++){
+            cin >> cave[i][j];
+        }
+    }
+    vis[N-1][N-1] = 1;
+    if(cave[N-1][N-1] == 2){
+        dfs(N-1,N-1,cave,vis,1);
+    }
+    else{
+        dfs(N-1,N-1,cave,vis,0);
+    }
+
+    cout<<bestJewels;
+
+    return 0;
+}
+
+/*
+
 #include<iostream>
 #include<climits>
 #define MAX 21
@@ -221,3 +298,5 @@ int main(){
 	}
 	return 0;
 }
+
+*/
