@@ -1,134 +1,86 @@
-**Problem: Sum of Nodes at a Given Level in a Serialized Binary Tree**
+/*
+------------------------------------------------------------
+PROBLEM: Sum of Nodes at a Given Level in a Serialized Binary Tree
+------------------------------------------------------------
 
----
+A binary tree is represented as a string using bracket notation.
 
-### Problem Statement
+Each node is encoded as:
 
-You are given a binary tree encoded as a string using bracket notation.
-Each node of the tree is represented in the following format:
+    (value left_subtree right_subtree)
 
-```
-(value left_subtree right_subtree)
-```
+Where:
+- value : integer value of the node (can be negative)
+- left_subtree : representation of the left child
+- right_subtree : representation of the right child
+- empty subtree is written as ()
 
-* `value` → integer value of the node (can be negative)
-* `left_subtree` → representation of the left child
-* `right_subtree` → representation of the right child
-* An empty subtree is represented as `()`
+Root node is at LEVEL 0.
 
-Your task is to compute the **sum of all node values present at a given level `X`**.
+Your task:
+Given a level X and the tree string S, print the sum of all node
+values present at level X.
 
-The root node is considered to be at **level 0**.
+IMPORTANT:
+You should NOT construct the actual tree. The problem can be solved
+by parsing the string and tracking the current depth using brackets.
 
----
+------------------------------------------------------------
+INPUT FORMAT
+------------------------------------------------------------
+Line 1 : Integer X (required level)
+Line 2 : String S (serialized tree)
 
-### Input Format
+------------------------------------------------------------
+OUTPUT FORMAT
+------------------------------------------------------------
+Print a single integer → sum of nodes at level X.
 
-1. The first line contains an integer `X` — the required level.
-2. The second line contains a string `S` — the serialized representation of the binary tree.
-
----
-
-### Output Format
-
-Print a single integer — the sum of all nodes present at level `X`.
-
----
-
-### Constraints
-
-* `0 ≤ X ≤ 10^5`
-* `1 ≤ |S| ≤ 10^5`
-* Node values range from `-10^9` to `10^9`
-* The tree is always valid and properly balanced in parentheses.
-
----
-
-### Example 1
-
-**Input**
-
-```
-2
+------------------------------------------------------------
+EXAMPLE 1
+Input:
+1
 (1(2()())(3()()))
-```
 
-**Explanation**
+Output:
+5
 
-The tree:
-
-```
+Explanation:
+Tree:
       1
      / \
     2   3
-```
 
-Nodes at level 2 → none
+Nodes at level 1 → 2 + 3 = 5
 
-Output:
-
-```
-0
-```
-
----
-
-### Example 2
-
-**Input**
-
-```
-1
-(1(2()())(3()()))
-```
-
-Nodes at level 1 → `2` and `3`
-
-Output:
-
-```
-5
-```
-
----
-
-### Example 3
-
-**Input**
-
-```
+------------------------------------------------------------
+EXAMPLE 2
+Input:
 3
 (0(5(6()())(-4()(9()())))(7(1()())(3()())))
-```
-
-Nodes at level 3 → `6, -4, 1, 3`
 
 Output:
-
-```
 6
-```
 
----
+Nodes at level 3 → 6, -4, 1, 3
+Sum = 6
 
-### Important Observations
+------------------------------------------------------------
+IDEA ( HINT )
+------------------------------------------------------------
+'('  → go one level deeper
+')'  → return to parent level
 
-* Every `'('` means moving **down one level** in the tree.
-* Every `')'` means returning **up one level**.
-* The nesting depth of parentheses directly corresponds to the depth of a node.
+The nesting depth of parentheses = node depth.
 
----
+When a number finishes parsing, we are currently standing
+at that node's level. If level == X, add it to sum.
 
-### Expected Approach
+Time Complexity: O(N)
+Space Complexity: O(1)
+------------------------------------------------------------
+*/
 
-The problem should be solved in **O(N)** time using a single pass over the string.
-Constructing an explicit tree is **not required** and may lead to unnecessary memory usage.
-
----
-
-### Tags
-
-`Tree` `DFS` `Stack` `Parsing` `Simulation` `String Processing`
 
 
 #include<bits/stdc++.h>
