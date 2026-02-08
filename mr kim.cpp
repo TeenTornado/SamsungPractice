@@ -4,57 +4,118 @@ https://gist.github.com/gunpreet34/d0e45eedd61dadbf42fe6540da98facf
 https://ideone.com/SlO2P5 - BitMasking Solution
 http://ideone.com/tdNRtQ - TARGET_SAMSUNG
 */
+# /*
 
-/*
-Mr. Kim has to deliver refrigerators to N customers. From the office, he is going to visit all the customers and then return to his home. 
-Each location of the office, his home, and the customers is given in the form of integer coordinates (x,y) (0≤x≤100, 0≤y≤100) . 
-The distance between two arbitrary locations (x1, y1) and (x2, y2) is computed by |x1-x2| + |y1-y2|, where |x| denotes the absolute value 
-of x; for instance, |3|=|-3|=3. The locations of the office, his home, and the customers are all distinct. You should plan an optimal way 
-to visit all the N customers and return to his among all the possibilities.
-You are given the locations of the office, Mr. Kim’s home, and the customers; the number of the customers is in the range of 5 to 10. 
-Write a program that, starting at the office, finds a (the) shortest path visiting all the customers and returning to his home. 
-Your program only have to report the distance of a (the) shortest path.
+# PROBLEM: Mr. Kim’s Refrigerator Delivery Route
 
-Constraints
+Mr. Kim must deliver refrigerators to N customers.
 
-5≤N≤10. Each location (x,y) is in a bounded grid, 0≤x≤100, 0≤y≤100, and x, y are integers.
+He starts from his OFFICE, must visit EVERY customer exactly once,
+and finally return to his HOME.
 
-Input
+Each location (office, home, and customers) is given as a coordinate
+(x, y) on a 2D grid.
 
-You are given 10 test cases. Each test case consists of two lines; the first line has N, the number of the customers, and the 
-following line enumerates the locations of the office, Mr. Kim’s home, and the customers in sequence. Each location consists of 
-the coordinates (x,y), which is reprensented by ‘x y’.
+The travel distance between two locations (x1, y1) and (x2, y2) is:
 
-Output
+```
+|x1 - x2| + |y1 - y2|
+```
 
-Output the 10 answers in 10 lines. Each line outputs the distance of a (the) shortest path. Each line looks like ‘#x answer’ 
-where x is the index of a test case. ‘#x’ and ‘answer’ are separated by a space.
+(This is Manhattan Distance.)
 
-I/O Example
+Your task is to determine the MINIMUM total distance Mr. Kim must
+travel if he chooses the optimal visiting order of customers.
 
-Input (20 lines in total. In the first test case, the locations of the office and the home are (0, 0) and (100, 100) respectively, 
-and the locations of the customers are (70, 40), (30, 10), (10, 5), (90, 70), (50, 20).)
+Important:
+• Every customer must be visited exactly once.
+• You can visit customers in ANY order.
+• You must start at the office.
+• You must end at Mr. Kim’s home.
 
-5 ← Starting test case #1
+---
 
+INPUT FORMAT
+
+T → number of test cases
+
+For each test case:
+
+Line 1:
+N  → number of customers (5 ≤ N ≤ 10)
+
+Line 2:
+Coordinates given in sequence:
+
+OfficeX OfficeY HomeX HomeY
+Customer1X Customer1Y
+Customer2X Customer2Y
+...
+CustomerNX CustomerNY
+
+---
+
+OUTPUT FORMAT
+
+For each test case print:
+
+#testcase_number minimum_distance
+
+---
+
+## EXAMPLE INPUT
+
+1
+5
 0 0 100 100 70 40 30 10 10 5 90 70 50 20
 
-6 ← Starting test case #2
+---
 
-88 81 85 80 19 22 31 15 27 29 30 10 20 26 5 14
-
-10 ← Starting test case #3
-
-39 9 97 61 35 93 62 64 96 39 36 36 9 59 59 96 61 7 64 43 43 58 1 36
-
-Output (10 lines in total)
+## EXAMPLE OUTPUT
 
 #1 200
 
-#2 304
+---
 
-#3 366
+EXPLANATION
+
+Start: Office (0,0)
+End:   Home (100,100)
+
+Customers:
+(70,40), (30,10), (10,5), (90,70), (50,20)
+
+Mr. Kim may visit customers in any order.
+
+One optimal visiting sequence:
+
+Office → Customer3 → Customer2 → Customer5 → Customer1 → Customer4 → Home
+
+Compute the Manhattan distances between consecutive locations.
+The minimum possible total distance = 200.
+
+---
+
+OBSERVATION
+
+This is NOT a shortest path graph problem.
+
+This is a permutation search problem.
+
+We must try all possible visiting orders of customers and
+choose the order with minimum travel distance.
+
+This is equivalent to a SMALL-SIZED Travelling Salesman Problem (TSP):
+
+start node fixed (office)
+end node fixed (home)
+visit all intermediate nodes exactly once
+
+Since N ≤ 10, a backtracking DFS solution is feasible.
+
+====================================================================
 */
+
 #include<iostream>
 #include<climits>
 using namespace std;
