@@ -1,47 +1,131 @@
-/*
-Mr. Lee has to travel various offices abroad to assist branches of each place. But he has a problem. 
-The airfare would be real high as all offices he has to visit are in foreign countries. He wants to visit every 
-location only one time and return home with the lowest expense. Help this company-caring man calculate the lowest expense.
+# /*
 
+# PROBLEM: Mr. Lee – Minimum Airfare (Samsung SWC Coding Test)
 
-Input format
-Several test cases can be included in the inputs. T, the number of cases is given in the first row of the inputs. 
-After that, the test cases as many as T (T ≤ 30) are given in a row. N, the number of offices to visit is given on 
-the first row per each test case. At this moment, No. 1 office is regarded as his company (Departure point). 
-(1 ≤ N ≤ 12) Airfares are given to move cities in which branches are located from the second row to N number rows.
-i.e. jth number of ith row is the airfare to move from ith city to jth city. If it is impossible to move between 
-two cities, it is given as zero.
+Mr. Lee works at a company headquarters (Office 0).
+He must travel to multiple international branch offices to help them.
 
-Output format
-Output the minimum airfare used to depart from his company, visit all offices, and then return his company on the 
-first row per each test case.
+However, flight tickets are expensive.
 
-Example of Input
+He wants to:
+
+1. Start from his company (city 0)
+2. Visit every other office EXACTLY ONCE
+3. Finally return back to his company (city 0)
+4. Spend the MINIMUM possible airfare
+
+You are given the airfare between every pair of cities.
+
+---
+
+INPUT DESCRIPTION
+
+T → number of test cases
+
+For each test case:
+
+N → number of offices (cities) including headquarters
+(1 ≤ N ≤ 12)
+
+Then an N × N matrix is given:
+
+matrix[i][j] = airfare to travel from city i to city j
+
+Rules:
+• matrix[i][i] = 0
+• If matrix[i][j] = 0 (i ≠ j) → travel is NOT possible
+• City 0 is the headquarters (start and end point)
+
+---
+
+OUTPUT
+
+For each test case print:
+
+Minimum airfare required to:
+start at city 0 → visit all cities exactly once → return to city 0
+
+If no complete tour exists, print -1.
+
+---
+
+## SAMPLE INPUT
 
 3
+
 5
 0 14 4 10 20
 14 0 7 8 7
 4 5 0 7 16
 11 7 9 0 2
 18 7 17 4 0
+
 5
 9 9 2 9 5
 6 3 5 1 5
 1 8 3 3 3
 6 0 9 6 8
 6 6 9 4 8
+
 3
 0 2 24
 3 0 2
 0 4 0
 
-Example of Output
+---
+
+## SAMPLE OUTPUT
 
 30
 18
-CUSTOM - 31 <- 4
+31
+
+---
+
+EXPLANATION (Test Case 1)
+
+Start at city 0.
+
+We must visit cities {1,2,3,4} exactly once and return to 0.
+
+One optimal route:
+
+0 → 2 → 1 → 3 → 4 → 0
+
+Cost:
+0→2 = 4
+2→1 = 5
+1→3 = 8
+3→4 = 2
+4→0 = 11
+
+Total = 4 + 5 + 8 + 2 + 11 = 30
+
+No other permutation gives a smaller cost.
+
+---
+
+IMPORTANT OBSERVATION
+
+This is the classic:
+
+TRAVELLING SALESMAN PROBLEM (TSP)
+
+Constraints N ≤ 12 mean:
+DP bitmask is possible,
+but Samsung typically expects
+DFS + Backtracking + Pruning.
+
+State:
+(current_city, visited_set, current_cost)
+
+Key idea:
+Try all permutations but prune paths
+when cost already exceeds best answer.
+
+===============================================================
 */
+
 #include<iostream>
 #include<climits>
 using namespace std;
