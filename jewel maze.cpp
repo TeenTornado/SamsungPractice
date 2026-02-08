@@ -1,30 +1,110 @@
-/*
-https://blog.csdn.net/lihenair/article/details/17227667
-http://www.mamicode.com/info-detail-995985.html
-https://www.oipapio.com/cn/article-8650635
-https://blog.csdn.net/broadCE/article/details/47959227
---------------------------------------------------------
-There is a maze that has one entrance and one exit. Jewels are placed in passages of the maze. 
-You want to pick up the jewels after getting into the maze through the entrance and before getting 
-out of it through the exit. You want to get as many jewels as possible, but you don’t want to take 
-the same passage you used once.
+# /*
 
-When locations of a maze and jewels are given, find out the greatest number of jewels you can get 
-without taking the same passage twice, and the path taken in this case.
+# PROBLEM: Jewel Maze — Maximum Jewels Without Reusing a Passage
 
-Input
-There can be more than one test case in the input file. The first line has T, the number of test cases.
-Then the totally T test cases are provided in the following lines (T ≤ 10 ).
+You are given a maze of size N × N.
 
-In each test case, In the first line, the size of the maze N (1 ≤ N ≤ 10) is given. 
-The maze is N×N square-shaped. From the second line through N lines, information of the maze is given.
-“0” means a passage, “1” means a wall, and “2” means a location of a jewel. The entrance is located 
-on the upper-most left passage and the exit is located on the lower-most right passage. 
-There is no case where the path from the entrance to the exit doesn’t exist.
+Each cell of the maze can be:
+0 → empty passage (you can walk)
+1 → wall (blocked)
+2 → jewel (can be collected once)
 
-Output
-From the first line through N lines, mark the path with 3 and output it. In N+1 line, output the 
-greatest number of jewels that can be picked up. Each test case must be output separately as a empty.
+You start at the ENTRANCE located at the top-left cell (0,0).
+You must reach the EXIT located at the bottom-right cell (N-1,N-1).
+
+Your goal is to collect the MAXIMUM number of jewels while travelling
+from entrance to exit.
+
+IMPORTANT RULE:
+You are NOT allowed to use the same passage twice.
+In other words, you cannot visit any cell more than once in a single path.
+
+You may move in 4 directions:
+UP, DOWN, LEFT, RIGHT
+
+A wall cell (1) cannot be entered.
+
+If multiple paths exist, choose the path that collects the maximum jewels.
+
+After finding the optimal path:
+• Mark every cell used in the final path with value 3
+• Other cells remain unchanged
+• Also print the number of jewels collected
+
+---
+
+INPUT FORMAT
+
+T → number of test cases
+
+For each test case:
+
+N → size of maze (1 ≤ N ≤ 10)
+
+Next N lines:
+N integers per line representing the maze.
+
+---
+
+OUTPUT FORMAT
+
+For each test case:
+
+Print the maze with the chosen path marked using 3.
+Then print the total number of jewels collected.
+
+---
+
+## SAMPLE INPUT
+
+1
+4
+0 0 2 0
+1 0 1 0
+0 2 0 0
+0 0 0 2
+
+---
+
+EXPLANATION
+
+You must start at (0,0) and reach (3,3).
+
+You may choose different routes, but:
+• you cannot revisit a cell
+• you cannot pass through walls
+• you want to collect maximum jewels
+
+Among all valid paths, choose the one collecting the most jewels.
+
+Finally mark that path using 3 and print the jewel count.
+
+---
+
+OBSERVATION / INTENDED SOLUTION
+
+This is NOT a shortest path problem.
+
+This is a:
+BACKTRACKING / DFS + STATE TRACKING problem.
+
+Why BFS fails:
+BFS finds shortest path.
+But shortest path ≠ maximum jewels.
+
+We must explore ALL possible paths from start to exit,
+while keeping track of:
+
+* visited cells
+* jewels collected
+
+Whenever we reach the exit:
+update the best answer if jewel count is larger.
+
+Time complexity is manageable because:
+N ≤ 10  → grid size ≤ 100 cells.
+
+====================================================================
 */
 
 #include<iostream>
