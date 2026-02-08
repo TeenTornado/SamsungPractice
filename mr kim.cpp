@@ -116,6 +116,88 @@ Since N ≤ 10, a backtracking DFS solution is feasible.
 ====================================================================
 */
 
+MY CODE
+
+#include <iostream>
+#include <climits>
+#include <cstdlib>
+using namespace std;
+
+int N;
+int ans;
+
+// office and home
+int officeX, officeY;
+int homeX, homeY;
+
+// customers
+int customerX[11], customerY[11];
+
+bool visited[11];
+
+// Manhattan distance
+int dist(int x1,int y1,int x2,int y2){
+    return abs(x1 - x2) + abs(y1 - y2);
+}
+
+// DFS permutation search
+void dfs(int currX,int currY,int count,int totalDist){
+
+    // pruning
+    if(totalDist >= ans)
+        return;
+
+    // all customers visited → go home
+    if(count == N){
+        totalDist += dist(currX,currY,homeX,homeY);
+        ans = min(ans,totalDist);
+        return;
+    }
+
+    // try next customer
+    for(int i=0;i<N;i++){
+        if(!visited[i]){
+
+            visited[i] = true;
+
+            dfs(customerX[i],customerY[i],
+                count+1,
+                totalDist + dist(currX,currY,customerX[i],customerY[i]));
+
+            visited[i] = false; // backtrack
+        }
+    }
+}
+
+int main(){
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+
+    cin >> N;
+
+    // office then home
+    cin >> officeX >> officeY >> homeX >> homeY;
+
+    for(int i = 0; i < N; i++){
+        cin >> customerX[i] >> customerY[i];
+        visited[i] = false;
+    }
+
+    ans = INT_MAX;
+
+    // start from office
+    dfs(officeX,officeY,0,0);
+
+    cout << ans;
+    return 0;
+}
+
+/*
+
 #include<iostream>
 #include<climits>
 using namespace std;
