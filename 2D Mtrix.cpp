@@ -3,18 +3,19 @@ PROBLEM: Maximum Score Path in a Grid
 You are given an N × N grid representing a game board.
 
 Each cell of the grid contains either:
-• A digit '0' to '9' representing points collected when visiting that cell
+• A digit '0' to '9' representing the points collected when you step on that cell
 • The character 'x' representing a blocked cell that cannot be visited
 
-You start from the top-left cell (0,0) and need to reach the bottom-right cell (N-1,N-1).
+You start at the top-left cell (0,0) and must reach the bottom-right cell (N-1,N-1).
 
 NOTE:
-The starting cell and the destination cell do NOT contribute any points.
+The starting cell and the destination cell DO NOT contribute any points.
 
 --------------------------------------------------
 
 ALLOWED MOVES
 From a cell (i, j) you may move:
+
 1. Right        → (i, j+1)
 2. Down         → (i+1, j)
 3. Diagonal     → (i+1, j+1)
@@ -35,26 +36,54 @@ If no valid path exists from start to destination, print:
 --------------------------------------------------
 
 INPUT FORMAT
-The first line contains an integer T — the number of test cases.
+The first line contains an integer T — number of test cases.
 
 For each test case:
-• First line contains integer N — the size of the grid
-• Next N lines contain N characters each (digits '0'–'9' or 'x')
+• First line contains an integer N — size of the grid
+• Next N lines each contain N characters separated by space
+  (each character is a digit '0'–'9' or 'x')
 
 --------------------------------------------------
 
 OUTPUT FORMAT
-For each test case, output two integers separated by a space:
+For each test case, output:
 <maximum_score> <number_of_paths>
 
 --------------------------------------------------
 
-EXAMPLE OUTPUT
-15 3
+SAMPLE INPUT
+1
+3
+0 1 1
+1 x 1
+1 1 0
 
-This means:
-Maximum obtainable score = 15
-Number of optimal paths  = 3
+SAMPLE OUTPUT
+3 2
+
+--------------------------------------------------
+
+EXPLANATION
+
+Possible valid paths from (0,0) to (2,2):
+
+Path 1:
+(0,0) → (0,1) → (0,2) → (1,2) → (2,2)
+Points collected = 1 + 1 + 1 = 3
+
+Path 2:
+(0,0) → (1,0) → (2,1) → (2,2)
+Points collected = 1 + 1 + 1 = 3
+
+Both paths produce the maximum possible score (3).
+
+Therefore:
+Maximum Score = 3
+Number of Maximum Score Paths = 2
+
+
+--------------------------------------------------
+
 
 #include <bits/stdc++.h>
 #include <iostream>
